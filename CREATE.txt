@@ -1,0 +1,46 @@
+create table if not exists Artist (
+	id_artist serial primary key,
+	Name varchar(60) not null unique
+);
+
+create table if not exists Albums (
+	id_album serial primary key,
+	Name_album varchar(150) not null,
+	Year integer
+);
+
+create table if not exists Artist_Albums (
+	id_artist integer references Artist(id_artist),
+	id_album integer references Albums(id_album),
+	constraint A_A primary key (id_artist, id_album)
+);
+
+create table if not exists Genre (
+	id_genre serial primary key,
+	Name_ganre varchar(60) not null
+);
+
+create table if not exists Artist_Genre (
+	id_artist integer references Artist(id_artist),
+	id_genre integer references Genre(id_genre),
+	constraint A_G primary key (id_artist, id_genre)
+);
+
+create table if not exists Tracks (
+	id_track serial primary key,
+	Name_track varchar(150) not null,
+	Time integer check(time > 0) not null,
+	id_album integer references Albums(id_album)
+);
+
+create table if not exists Collection (
+	id_collection serial primary key,
+	title_collection varchar(150) not null,
+	year_of_relese integer
+);
+
+create table if not exists Tracks_Collection (
+	id_track integer references Tracks(id_track),
+	id_collection integer references Collection(id_collection),
+	constraint T_C primary key (id_track, id_collection)
+);
